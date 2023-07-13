@@ -1,0 +1,17 @@
+{% extends 'learning_logs/base.html' %} {% block page_header %}
+<h1>PROMPTS</h1>
+{% endblock page_header %} {% block content %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Most Recent Prompt</title>
+  </head>
+  <body>
+    <h1>Most Recent Prompt</h1>
+    <p>{{ prompt.get_text }}</p>
+    <p>Created on: {{ prompt.get_datetime }}</p>
+  </body>
+</html>
+
+{% endblock content %}

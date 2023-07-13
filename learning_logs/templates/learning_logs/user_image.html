@@ -1,0 +1,39 @@
+{% extends 'learning_logs/base.html' %} {% block page_header %}
+<h1>User Image</h1>
+{% endblock page_header %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .centered-div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 80vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="centered-div">
+      {% if local_url %}
+      <img src="{{ local_url }}" alt="User Image" />
+      {% else %}
+      <p>No local image available.</p>
+      {% endif %}
+      <br />
+      <br />
+      <br />
+      <p>Text Field: {{ text_field }}</p>
+      <br />
+      <br />
+      <a href="{% url 'imageGeneration:gallery' %}" class="btn btn-success"
+        >Continue to Gallery</a
+      >
+    </div>
+  </body>
+</html>
+{% endblock content %}

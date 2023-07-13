@@ -1,0 +1,77 @@
+{% extends 'learning_logs/base.html' %} {% block page_header %}
+<h1>User History</h1>
+{% endblock page_header %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Include Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Oswald&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Agdasima&display=swap");
+      .image-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5vh; /* Add vertical spacing based on 25% of image height */
+      }
+      .image-container img {
+        margin-right: 10px;
+      }
+      .larger-text {
+        font-size: 1.5rem; /* Increase the text size for ul elements */
+        width: 100%; /* Span the entire width of the container */
+      }
+      .rectangular-div {
+        height: 100%;
+        width: calc(
+          100% - 10px - 1.5vh
+        ); /* Adjust width to account for image margin and vertical spacing */
+        display: flex;
+        align-items: center;
+        padding: 10px;
+      }
+
+      .font1 {
+        font-family: "Oswald", sans-serif; /* Replace 'Font1' with the name of your preferred font */
+      }
+
+      .font2 {
+        font-family: "Oswald", sans-serif; /* Replace 'Font2' with the name of your preferred font */
+      }
+    </style>
+  </head>
+  <body>
+    {% if user.is_authenticated %}
+    <div class="container">
+      <div class="row">
+        {% for image in image %}
+        <div class="col-12">
+          <div class="image-container">
+            <img src="{{ image.get_image_url }}" alt="Image" />
+            <div class="rectangular-div">
+              <ul class="larger-text">
+                <li class="font1">Prompt: {{ image.get_text }}</li>
+                <li class="font2">Added on: {{ image.get_datetime }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% else %}
+    <a href="{% url 'accounts:login' %}">Login to view User History</a>
+
+    {% endif %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
+
+{% endblock content %}

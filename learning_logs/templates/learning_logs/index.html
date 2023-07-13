@@ -1,0 +1,30 @@
+{% extends 'learning_logs/base.html' %} {% block page_header %}
+<div class="p-3 mb-4 bg-light border rounded-3">
+  <div class="container-fluid py-4">
+    <h1 class="display-3">Welcome to imageForge!</h1>
+
+    <p class="lead">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam malesuada
+      massa nec orci volutpat, non luctus lacus efficitur. Ut vitae nunc velit.
+      Nam vulputate pellentesque leo, vel pharetra neque eleifend at. Mauris ac
+      dolor ut metus convallis luctus. Nunc finibus orci ipsum, id bibendum
+      lacus posuere in. Vestibulum at justo felis. Fusce eget enim nec est
+      aliquam dignissim a a ligula. Integer id ipsum turpis.
+    </p>
+
+    <a class="btn btn-primary btn-lg mt-1" href="{% url 'accounts:register' %}"
+      >Register &raquo;</a
+    >
+  </div>
+</div>
+
+<div
+  class="d-flex justify-content-center align-items-center"
+  style="height: 20vh"
+>
+  <form method="POST" action="{% url 'learning_logs:generation' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success btn-lg mt-1">GENERATE</button>
+  </form>
+</div>
+{% endblock page_header %}

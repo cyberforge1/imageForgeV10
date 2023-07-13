@@ -1,0 +1,71 @@
+{% extends 'learning_logs/base.html' %} {% block page_header %}
+<h1>Generation</h1>
+{% endblock page_header %} {% block content %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+    />
+    <style>
+      .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh; /* Adjust the height to make buttons 15% higher */
+      }
+      .button-container .btn-generate-image {
+        background-color: #28a745;
+      }
+    </style>
+  </head>
+  <body>
+    {% csrf_token %}
+    <div class="container">
+      <div
+        class="row justify-content-center align-items-center"
+        style="min-height: 100vh"
+      >
+        <div class="col-md-6">
+          <div class="text-center" style="margin-top: -40%">
+            <button
+              id="run-script-btn"
+              type="submit"
+              class="btn btn-success btn-lg"
+            >
+              GENERATE
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Include the jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- JavaScript code to handle the button click event -->
+    <script>
+      $(document).ready(function () {
+        // Handle button click event
+        $("#run-script-btn").click(function () {
+          $.ajax({
+            url: "/run_prompt_script/",
+            type: "GET",
+            success: function (data) {
+              // Process the response data here
+              console.log(data);
+              window.location.href = "/prompt/"; // Redirect to /prompt on success
+            },
+            error: function (xhr, errmsg, err) {
+              console.log(xhr.status + ": " + xhr.responseText);
+              window.location.href = "/prompt/"; // Redirect to /prompt on error
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+{% endblock content %}

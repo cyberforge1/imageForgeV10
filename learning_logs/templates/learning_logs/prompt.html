@@ -1,0 +1,91 @@
+{% extends 'learning_logs/base.html' %} {% block page_header %}
+<h1>Prompt</h1>
+{% endblock page_header %} {% block content %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Centered Div with Bootstrap</title>
+    <!-- Include Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div
+      class="container d-flex justify-content-center align-items-center"
+      style="height: 100vh"
+    >
+      <div class="text-center" style="width: 30%">
+        <form>
+          <div class="mb-3">
+            <label for="displayField" class="form-label"
+              >Randomized Prompt</label
+            >
+            <p>{{ prompt.get_text }}</p>
+          </div>
+          <div class="mb-3">
+            <button type="button" id="run-script-btn" class="btn btn-primary">
+              New Prompt
+            </button>
+            <button type="button" id="run-image-btn" class="btn btn-success">
+              Create Image
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Include the jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- JavaScript code to handle the button click event -->
+    <script>
+      $(document).ready(function () {
+        // Handle button click event
+        $("#run-script-btn").click(function () {
+          $.ajax({
+            url: "/run_prompt_script/",
+            type: "GET",
+            success: function (data) {
+              // Process the response data here
+              console.log(data);
+              window.location.href = "/prompt/"; // Redirect to /prompt on success
+            },
+            error: function (xhr, errmsg, err) {
+              console.log(xhr.status + ": " + xhr.responseText);
+              window.location.href = "/prompt/"; // Redirect to /prompt on error
+            },
+          });
+        });
+
+        // Handle button click event
+        $("#run-image-btn").click(function () {
+          // Disable the 'Create Image' button
+          $(this).prop("disabled", true);
+          // Disable the 'New Prompt' button
+          $("#run-script-btn").prop("disabled", true);
+
+          $.ajax({
+            url: "/run_image_script/",
+            type: "GET",
+            success: function (data) {
+              // Process the response data here
+              console.log(data);
+              window.location.href = "/user_image/";
+            },
+            error: function (xhr, errmsg, err) {
+              console.log(xhr.status + ": " + xhr.responseText);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+
+{% endblock content %} learning_logs/templates/learning_logs/user_image.html
