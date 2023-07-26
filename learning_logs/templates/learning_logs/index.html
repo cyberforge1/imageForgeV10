@@ -1,30 +1,71 @@
-{% extends 'learning_logs/base.html' %} {% block page_header %}
-<div class="p-3 mb-4 bg-light border rounded-3">
+{% extends 'learning_logs/base.html' %} {% load static %} {% block content %}
+<style>
+  body {
+    background-image: url("{% static 'explosion2.png' %}");
+    background-size: cover;
+    background-position: center;
+    min-height: calc(100vh + 350px);
+    margin: 0;
+    padding: 0;
+  }
+
+  .custom-div {
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .custom-div h1 {
+    font-size: calc(3vw + 1rem);
+    max-width: 90%;
+  }
+
+  .custom-div p {
+    font-size: calc(1vw + 0.5rem);
+    max-width: 90%;
+  }
+
+  .custom-div .d-grid {
+    width: 100%;
+  }
+
+  .custom-div .d-grid .btn {
+    width: 100%;
+  }
+
+  @media (max-width: 767px) {
+    /* Adjust the styles for smaller screens */
+    .custom-div h1 {
+      font-size: 2rem;
+    }
+
+    .custom-div p {
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<div class="p-3 mb-4 bg-light border rounded-3 custom-div" id="myDiv">
   <div class="container-fluid py-4">
     <h1 class="display-3">Welcome to imageForge!</h1>
-
-    <p class="lead">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam malesuada
-      massa nec orci volutpat, non luctus lacus efficitur. Ut vitae nunc velit.
-      Nam vulputate pellentesque leo, vel pharetra neque eleifend at. Mauris ac
-      dolor ut metus convallis luctus. Nunc finibus orci ipsum, id bibendum
-      lacus posuere in. Vestibulum at justo felis. Fusce eget enim nec est
-      aliquam dignissim a a ligula. Integer id ipsum turpis.
-    </p>
-
-    <a class="btn btn-primary btn-lg mt-1" href="{% url 'accounts:register' %}"
-      >Register &raquo;</a
-    >
+    <p>Create randomly generated images with OpenAI's Dall•E 2 Model</p>
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <a
+        href="{% url 'imageGeneration:gallery' %}"
+        class="btn btn-primary"
+        type="button"
+        >Visit Gallery</a
+      >
+      <a
+        href="{% url 'learning_logs:generation' %}"
+        class="btn btn-success"
+        type="button"
+        >Generation</a
+      >
+    </div>
   </div>
 </div>
-
-<div
-  class="d-flex justify-content-center align-items-center"
-  style="height: 20vh"
->
-  <form method="POST" action="{% url 'learning_logs:generation' %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-success btn-lg mt-1">GENERATE</button>
-  </form>
-</div>
-{% endblock page_header %}
+{% endblock content %}

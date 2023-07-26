@@ -56,46 +56,42 @@ def run_image_script(request):
 
 
 
+from django.shortcuts import render, get_object_or_404
+from imageGeneration.models import Image, UserImage
+
 def user_image(request):
-    image_instance_object = Image.objects.latest('datetime_field')
-    print("image_instance_object:", image_instance_object)
-    
-    image_instance_id = image_instance_object.id
-    print("image_instance_id:", image_instance_id)
-    
-    image = Image.objects.get(id=image_instance_id)
-    print("image:", image)
+    # Initialize user_image_instance variable
+    user_image_instance = None
 
-    user_image_instance = UserImage()
-    print("user_image_instance:", user_image_instance)
-    
-    user_image_instance.text_field = image.text_field
-    print("user_image_instance.text_field:", user_image_instance.text_field)
-    
-    user_image_instance.datetime_field = image.datetime_field
-    print("user_image_instance.datetime_field:", user_image_instance.datetime_field)
+    if Image.objects.exists():
+        # Get the latest Image object based on the 'datetime_field'
+        image_instance_object = Image.objects.latest('datetime_field')
 
-    user_image_instance.image_field = image.image_field
-    print("user_image_instance.image_field:", user_image_instance.image_field)
+        # Create a new UserImage instance based on the retrieved Image object
+        user_image_instance = UserImage.objects.create(
+            text_field=image_instance_object.text_field,
+            datetime_field=image_instance_object.datetime_field,
+            image_field=image_instance_object.image_field,
+            local_url=image_instance_object.local_url,
+            owner=request.user
+        )
 
-    user_image_instance.local_url = image.local_url
-    print("user_image_instance.local_url:", user_image_instance.local_url)
+        # Pass the field values to the template or do further processing
+        context = {
+            'text_field': user_image_instance.text_field,
+            'datetime_field': user_image_instance.datetime_field,
+            'local_url': user_image_instance.local_url,
+            'owner': user_image_instance.owner
+        }
 
-    user_image_instance.owner = request.user
-    print("user_image_instance.owner:", user_image_instance.owner)
+    else:
+        # Handle the case when no Image objects are found
+        context = {
+            'text_field': None,
+            'datetime_field': None,
+            'local_url': None,
+            'owner': None
+        }
 
-    
-    user_image_instance.save()
-    
-    print('User image instance has been created with an ID of', image_instance_id)
-    
-    # Pass the field values to the template or do further processing
-    context = {
-        'text_field': user_image_instance.text_field,
-        'datetime_field': user_image_instance.datetime_field,
-        'local_url': user_image_instance.local_url,
-        'owner': user_image_instance.owner
-    }
-    
     return render(request, 'learning_logs/user_image.html', context)
 
